@@ -12,6 +12,7 @@ Usage:
 # importing packages
 import pydicom as dicom
 import os
+import csv
 
 # object to get dicom info
 class dicom_info:
@@ -75,12 +76,36 @@ print(names[pointer[pointer[0]-1]])
 # create a new list with the size of the number of folders
 n = len(folders)
 ordered_Description = [None]*n
+ordered_time = [None]*n
 
 ii = 0
 for p in pointer:
     ordered_Description[p-1] = names[ii]
+    ordered_time[p-1] = times[ii]
     ii = ii+1
 
 
 print(names)
 print(ordered_Description)
+
+# get numbers ordered to put on table
+order = list(range(1,n+1,1))
+print(order)
+
+# writing csv file
+with open('output.csv', mode='w') as output_file:
+    output_file = csv.writer(output_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+    # write the header
+    output_file.writerow(['Number', 'Name', 'Time'])
+    for ii in range(n):
+        output_file.writerow([order[ii],ordered_Description[ii],ordered_time[ii]])
+        
+
+
+
+#with open('employee_file.csv', mode='w') as employee_file:
+#    employee_writer = csv.writer(employee_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+
+#    employee_writer.writerow(['John Smith', 'Accounting', 'November'])
+#    employee_writer.writerow(['Erica Meyers', 'IT', 'March'])
+  
